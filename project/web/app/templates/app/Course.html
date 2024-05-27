@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-primary dashboard-link">Go to Dashboard</a>
+        <h2 class="text-center">Course List</h2>
+        <input type="text" id="searchInput" class="form-control search-input" onkeyup="searchCourses()" placeholder="Search for courses by name or code...">
+
+        <!-- Display Django messages -->
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <table class="table table-hover" id="courseTable">
+            <thead class="thead-light">
+                <tr>
+                    <th>Course Number</th>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Prerequisites</th>
+                    <th>Available Seats</th>
+                    <th>Schedule</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr class="course-item">
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.description }}</td>
+                    <td>
+                        {% if course.prerequisites.exists %}
+                            <ul>
+                                {% for prereq in course.prerequisites.all %}
+                                    <li>{{ prereq.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
+                    <td>{{ course.available_seats }}</td>
+                    <td>
+                        {% for schedule in course.courseschedule_set.all %}
+                            {{ schedule.days }}: {{ schedule.startTime|date:"H:i" }} - {{ schedule.endTime|date:"H:i" }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'register_to_course' course.id %}" class="btn btn-primary">Register</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7">No courses available.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function searchCourses() {
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("courseTable");
+            var tr = table.getElementsByTagName("tr");
+            var found;
+
+            for (var i = 1; i < tr.length; i++) {
+                var tdArray = tr[i].getElementsByTagName("td");
+                found = false;
+                for (var j = 0; j < tdArray.length; j++) {
+                    var td = tdArray[j];
+                    if (td) {
+                        if (td.textContent.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

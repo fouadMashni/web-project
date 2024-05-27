@@ -1,0 +1,133 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 0;
+}
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+label {
+    font-size: 16px;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.btn {
+    margin-right: 5px;
+}
+.dashboard-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.back-link {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.back-link a {
+    display: inline-block;
+    width: 100%;
+    background-color: #4a69bd;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+.back-link a:hover {
+    background-color: #4056a1;
+}
+
+/* Course List and Registered Courses */
+.table-hover {
+    width: 100%;
+}
+.table-hover thead {
+    background-color: #f8f9fa;
+}
+.course-item, .list-group-item {
+    border-bottom: 1px solid #eee;
+}
+.course-item:last-child, .list-group-item:last-child {
+    border-bottom: none;
+}
+.course-details, .list-group-item div {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+.no-results {
+    color: #900;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Course Schedules */
+.day-schedule {
+    display: none;
+}
+
+
+/* C:\Users\OMEN\Desktop\project\web\static\styles.css */
+body {
+    background-color: #f7faff;
+    font-family: 'Roboto', sans-serif;
+}
+.card {
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+}
+.card-header {
+    background-color: #4a69bd;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    border-bottom: none;
+}
+.card-body {
+    padding: 2rem;
+}
+label {
+    font-weight: 500;
+    color: #333;
+}
+.btn-primary {
+    background-color: #4a69bd;
+    border-color: #4a69bd;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.btn-primary:hover {
+    background-color: #4056a1;
+    border-color: #4056a1;
+}
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+.invalid-feedback {
+    color: #e3342f;
+}
+.mt-2 a, .mt-3 a {
+    color: #4a69bd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.mt-2 a:hover, .mt-3 a:hover {
+    color: #4056a1;
+}

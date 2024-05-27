@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Schedules</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.day-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const day = this.getAttribute('data-day');
+                    document.querySelectorAll('.day-schedule').forEach(function(schedule) {
+                        schedule.style.display = 'none';
+                    });
+                    document.getElementById('schedule-' + day).style.display = 'block';
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Link to the dashboard -->
+        <a href="{% url 'dashboard' %}" class="btn btn-primary dashboard-link mb-4">Go to Dashboard</a>
+        <h1 class="mb-4">Course Schedules</h1>
+        <div class="btn-group" role="group" aria-label="Days of the week">
+            {% for day in days_of_week %}
+            <button type="button" class="btn btn-primary day-btn" data-day="{{ day }}">{{ day }}</button>
+            {% endfor %}
+        </div>
+
+        {% for day in days_of_week %}
+        <div id="schedule-{{ day }}" class="day-schedule mt-4">
+            <h2>{{ day }}</h2>
+            <ul class="list-group">
+                {% for x in schedules %}
+                {% for schedule_day in x.get_days_list %}
+                {% if schedule_day == day %}
+                <li class="list-group-item">
+                    <h5>{{ x.course.name }}</h5>
+                    <p>Instructor: {{ x.course.instructor.name }}</p>
+                    <p>Time: {{ x.startTime }} - {{ x.endTime }}</p>
+                    <p>Room No: {{ x.roomNo }}</p>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary dashboard-link">Go to Dashboard</a>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Course Search</h1>
+        <div>
+            <label for="searchInput">Search Course:</label>
+            <input type="text" id="searchInput" class="form-control" onkeyup="searchCourses()" placeholder="Enter course name or code...">
+        </div>
+        <div id="courseList" class="mt-4">
+            {% for x in course %}
+            <div class='course-item mb-3 p-3 border rounded'>
+                <strong>{{ x.code }}: {{ x.name }}</strong>
+                <div class='course-details mt-2'>
+                    {{ x.description }}<br>
+                    Instructor: {{ x.instructor.name }}<br>
+                    {% for schedule in x.courseschedule_set.all %}
+                    {{ schedule.days }}: {{ schedule.startTime|date:"H:i" }} - {{ schedule.endTime|date:"H:i" }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-results">No courses found.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function searchCourses() {
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var div = document.getElementById("courseList");
+            var items = div.getElementsByClassName("course-item");
+            var found = false;
+            for (var i = 0; i < items.length; i++) {
+                var text = items[i].textContent || items[i].innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                    found = true;
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+            var noResults = document.getElementById('noResults');
+            if (!found) {
+                if (!noResults) {
+                    noResults = document.createElement('div');
+                    noResults.id = 'noResults';
+                    noResults.className = 'no-results';
+                    noResults.textContent = 'No courses found.';
+                    div.appendChild(noResults);
+                }
+                noResults.style.display = '';
+            } else if (noResults) {
+                noResults.style.display = 'none';
+            }
+        }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
